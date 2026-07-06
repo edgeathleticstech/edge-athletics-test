@@ -13,10 +13,10 @@ collections:
     delete: true
     slug: "{{slug}}"
     fields:
+      - { label: "Publish", name: "active", widget: "boolean", default: true, hint: "Turn off to save as draft without showing on the website" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false }
       - { label: "Urgent?", name: "urgent", widget: "boolean", default: false, hint: "Mark as urgent to highlight this announcement" }
-      - { label: "Active", name: "active", widget: "boolean", default: true, hint: "Uncheck to hide this announcement without deleting it" }
       - { label: "Body", name: "body", widget: "markdown" }
 
   - name: "programs"
@@ -26,6 +26,7 @@ collections:
     delete: true
     slug: "{{slug}}"
     fields:
+      - { label: "Publish", name: "active", widget: "boolean", default: true, hint: "Turn off to save as draft without showing on the website" }
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text", hint: "Short description shown in program listings" }
       - { label: "Season", name: "season", widget: "string", hint: "e.g., Fall 2025, Summer 2026, Spring 2026" }
@@ -55,7 +56,6 @@ collections:
       - { label: "Password Protect?", name: "protected", widget: "boolean", default: false, hint: "Turn on to require a password to view this page" }
       - { label: "Page Password", name: "pagePassword", widget: "string", required: false, hint: "Password visitors must enter to see this page (only used if Password Protect is on)" }
       - { label: "Display Order", name: "order", widget: "number", default: 0, hint: "Lower numbers appear first" }
-      - { label: "Active", name: "active", widget: "boolean", default: true, hint: "Uncheck to hide this program without deleting it" }
       - { label: "Full Description", name: "body", widget: "markdown", hint: "Detailed program information — features, who it's for, FAQ, etc." }
 
   - name: "schedules"
@@ -65,6 +65,7 @@ collections:
     delete: true
     slug: "{{slug}}"
     fields:
+      - { label: "Publish", name: "active", widget: "boolean", default: true, hint: "Turn off to save as draft without showing on the website" }
       - { label: "Title", name: "title", widget: "string", hint: "e.g., 14u Practice or 15u vs Hudson Valley Hawks" }
       - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false }
       - { label: "Team", name: "team", widget: "string", hint: "e.g., 14u, 12u East, 15u" }
@@ -80,4 +81,3 @@ collections:
           - { label: "Event", value: "event" }
         default: "practice"
       - { label: "Notes", name: "notes", widget: "string", required: false, hint: "Optional — arrival time, jersey color, etc." }
-      - { label: "Active", name: "active", widget: "boolean", default: true }
