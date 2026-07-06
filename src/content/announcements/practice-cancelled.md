@@ -1,5 +1,5 @@
 ---
-title: Practice Cancelled Tonight!
+title: Practice Cancelled Tonight!!
 date: 2026-07-05
 urgent: true
 active: true
