@@ -1,6 +1,6 @@
 ---
-title: "Practice Cancelled Tonight"
-date: "2026-07-05"
+title: Practice Cancelled Tonight!
+date: 2026-07-05
 urgent: true
 active: true
 ---
