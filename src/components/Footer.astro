@@ -1,0 +1,93 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>Edge Athletics</h3>
+        <p>Developing basketball players since 1996. AAU sanctioned program serving the Hudson Valley.</p>
+      </div>
+      <div class="footer-col">
+        <h3>Contact</h3>
+        <p>info@edgeathletics.com</p>
+        <p>845-264-5078</p>
+        <p>Poughkeepsie, NY</p>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <a href="/">Home</a>
+        <a href="/programs">Programs</a>
+        <a href="/schedule">Schedule</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {currentYear} Edge Athletics. All Rights Reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-primary);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 3rem 1.5rem 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .footer-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .footer-col h3 {
+    color: var(--color-white);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-col p {
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .footer-col a {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin-bottom: 0.35rem;
+    transition: color 0.15s ease;
+  }
+
+  .footer-col a:hover {
+    color: white;
+    text-decoration: none;
+  }
+
+  .footer-bottom {
+    padding-top: 1.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>

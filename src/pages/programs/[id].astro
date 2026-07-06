@@ -1,0 +1,226 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import YouTubeEmbed from '../../components/YouTubeEmbed.astro';
+import PasswordGate from '../../components/PasswordGate.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const programs = await getCollection('programs');
+  return programs.map((program) => ({
+    params: { id: program.id },
+    props: { program },
+  }));
+}
+
+const { program } = Astro.props;
+const { Content } = await render(program);
+const { data } = program;
+---
+
+<BaseLayout title={data.title}>
+  <section class="page-header">
+    <div class="container">
+      <a href="/programs" class="back-link">&larr; All Programs</a>
+      <span class="program-season">{data.season}</span>
+      <h1>{data.title}</h1>
+      <p>{data.description}</p>
+    </div>
+  </section>
+
+  {data.protected && data.pagePassword ? (
+    <section class="section">
+      <div class="container">
+        <PasswordGate password={data.pagePassword}>
+          <div class="details-grid">
+        {data.ageRange && (
+          <div class="detail-item">
+            <span class="detail-label">Ages</span>
+            <span class="detail-value">{data.ageRange}</span>
+          </div>
+        )}
+        {data.dates && (
+          <div class="detail-item">
+            <span class="detail-label">Schedule</span>
+            <span class="detail-value">{data.dates}</span>
+          </div>
+        )}
+        {data.tuition && (
+          <div class="detail-item">
+            <span class="detail-label">Tuition</span>
+            <span class="detail-value">{data.tuition}</span>
+          </div>
+        )}
+        {data.location && (
+          <div class="detail-item">
+            <span class="detail-label">Location</span>
+            <span class="detail-value">{data.location}</span>
+          </div>
+        )}
+      </div>
+
+      {data.registrationUrl && (
+        <a href={data.registrationUrl} class="register-btn">Register Now</a>
+      )}
+
+      <div class="content-body">
+        <Content />
+      </div>
+
+      {data.images && data.images.length > 0 && (
+        <div class="media-section">
+          <h2>Photos</h2>
+          <div class="image-grid">
+            {data.images.map((src: string) => (
+              <div class="image-item">
+                <img src={src} alt={data.title} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {data.videos && data.videos.length > 0 && (
+        <div class="media-section">
+          <h2>Videos</h2>
+          <div class="video-grid">
+            {data.videos.map((url: string) => (
+              <div class="video-item">
+                <YouTubeEmbed url={url} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+        </PasswordGate>
+      </div>
+    </section>
+  ) : (
+    <section class="section">
+      <div class="container">
+        <div class="details-grid">
+          {data.ageRange && (
+            <div class="detail-item">
+              <span class="detail-label">Ages</span>
+              <span class="detail-value">{data.ageRange}</span>
+            </div>
+          )}
+          {data.dates && (
+            <div class="detail-item">
+              <span class="detail-label">Schedule</span>
+              <span class="detail-value">{data.dates}</span>
+            </div>
+          )}
+          {data.tuition && (
+            <div class="detail-item">
+              <span class="detail-label">Tuition</span>
+              <span class="detail-value">{data.tuition}</span>
+            </div>
+          )}
+          {data.location && (
+            <div class="detail-item">
+              <span class="detail-label">Location</span>
+              <span class="detail-value">{data.location}</span>
+            </div>
+          )}
+        </div>
+
+        {data.registrationUrl && (
+          <a href={data.registrationUrl} class="register-btn">Register Now</a>
+        )}
+
+        <div class="content-body">
+          <Content />
+        </div>
+
+        {data.images && data.images.length > 0 && (
+          <div class="media-section">
+            <h2>Photos</h2>
+            <div class="image-grid">
+              {data.images.map((src: string) => (
+                <div class="image-item">
+                  <img src={src} alt={data.title} loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {data.videos && data.videos.length > 0 && (
+          <div class="media-section">
+            <h2>Videos</h2>
+            <div class="video-grid">
+              {data.videos.map((url: string) => (
+                <div class="video-item">
+                  <YouTubeEmbed url={url} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .page-header { background: var(--color-primary); color: white; padding: 2.5rem 1.5rem 3rem; }
+  .container { max-width: var(--max-width); margin: 0 auto; }
+  .back-link { color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; display: inline-block; margin-bottom: 1rem; }
+  .back-link:hover { color: white; }
+
+  .program-season {
+    display: inline-block; background: var(--color-accent); color: white;
+    padding: 0.2rem 0.7rem; border-radius: 4px; font-size: 0.8rem;
+    font-weight: 600; text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+
+  .page-header h1 { font-size: 2.25rem; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .page-header p { color: rgba(255, 255, 255, 0.8); font-size: 1.05rem; max-width: 700px; }
+  .section { padding: 2.5rem 1.5rem; }
+
+  .details-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem; background: var(--color-bg-alt); border-radius: 8px;
+    padding: 1.5rem; margin-bottom: 1.5rem;
+  }
+
+  .detail-label {
+    display: block; font-size: 0.75rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--color-text-light); margin-bottom: 0.25rem;
+  }
+
+  .detail-value { font-size: 1rem; font-weight: 600; color: var(--color-primary); }
+
+  .register-btn {
+    display: inline-block; background: var(--color-accent); color: white;
+    padding: 0.75rem 2rem; border-radius: 6px; font-weight: 700; font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 2rem;
+    transition: background 0.15s ease;
+  }
+
+  .register-btn:hover { background: var(--color-accent-hover); text-decoration: none; }
+
+  .content-body { margin-bottom: 2.5rem; line-height: 1.7; }
+  .content-body :global(h2) { font-size: 1.4rem; color: var(--color-primary); margin: 2rem 0 0.75rem; }
+  .content-body :global(p) { margin-bottom: 0.75rem; }
+  .content-body :global(ul), .content-body :global(ol) { margin-bottom: 1rem; padding-left: 1.5rem; }
+  .content-body :global(li) { margin-bottom: 0.35rem; }
+  .content-body :global(strong) { font-weight: 700; }
+
+  .media-section { margin-bottom: 2.5rem; }
+  .media-section h2 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 1rem; text-transform: uppercase; }
+
+  .image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+  .image-item { border-radius: 8px; overflow: hidden; background: var(--color-bg-alt); aspect-ratio: 16 / 10; }
+  .image-item img { width: 100%; height: 100%; object-fit: cover; }
+
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.5rem; }
+
+  @media (max-width: 768px) {
+    .page-header h1 { font-size: 1.75rem; }
+    .details-grid { grid-template-columns: 1fr 1fr; }
+    .image-grid { grid-template-columns: 1fr; }
+    .video-grid { grid-template-columns: 1fr; }
+  }
+</style>

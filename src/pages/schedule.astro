@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const schedules = (await getCollection('schedules'))
+  .filter((s) => s.data.active)
+  .sort((a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime());
+
+// Group by date
+const grouped = schedules.reduce((acc: Record<string, typeof schedules>, entry) => {
+  const dateKey = entry.data.date;
+  if (!acc[dateKey]) acc[dateKey] = [];
+  acc[dateKey].push(entry);
+  return acc;
+}, {});
+
+const typeColors: Record<string, string> = {
+  practice: '#2563eb',
+  game: '#059669',
+  tournament: '#d97706',
+  event: '#7c3aed',
+};
+---
+
+<BaseLayout title="Schedule">
+  <section class="page-header">
+    <div class="container">
+      <h1>Schedule</h1>
+      <p>Upcoming practices, games, and events</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {Object.keys(grouped).length > 0 ? (
+        Object.entries(grouped).map(([dateStr, entries]) => (
+          <div class="date-group">
+            <h2 class="date-heading">
+              {new Date(dateStr).toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </h2>
+            <div class="entries-list">
+              {entries.map((entry) => (
+                <div class="schedule-entry">
+                  <span
+                    class="entry-type"
+                    style={`background: ${typeColors[entry.data.type] || typeColors.event}`}
+                  >
+                    {entry.data.type}
+                  </span>
+                  <div class="entry-info">
+                    <h3>{entry.data.title}</h3>
+                    <div class="entry-details">
+                      <span class="entry-detail">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        {entry.data.time}
+                      </span>
+                      <span class="entry-detail">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        {entry.data.location}
+                      </span>
+                      <span class="entry-detail team-badge">{entry.data.team}</span>
+                    </div>
+                    {entry.data.notes && (
+                      <p class="entry-notes">{entry.data.notes}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      ) : (
+        <p class="empty-state">No upcoming events scheduled.</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    background: var(--color-primary);
+    color: white;
+    padding: 3rem 1.5rem;
+  }
+
+  .container { max-width: var(--max-width); margin: 0 auto; }
+
+  .page-header h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p { color: rgba(255, 255, 255, 0.8); font-size: 1.1rem; }
+
+  .section { padding: 2rem 1.5rem; }
+
+  .date-group { margin-bottom: 2rem; }
+
+  .date-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-border);
+    margin-bottom: 0.75rem;
+  }
+
+  .entries-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+  .schedule-entry {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .entry-type {
+    display: inline-block;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .entry-info { flex: 1; }
+
+  .entry-info h3 {
+    font-size: 1.1rem;
+    color: var(--color-primary);
+    margin-bottom: 0.35rem;
+  }
+
+  .entry-details {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+  }
+
+  .entry-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .team-badge {
+    background: var(--color-bg-alt);
+    padding: 0.1rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+
+  .entry-notes {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    font-style: italic;
+  }
+
+  .empty-state { color: var(--color-text-light); font-style: italic; padding: 2rem 0; }
+
+  @media (max-width: 768px) {
+    .entry-details { flex-direction: column; gap: 0.35rem; align-items: flex-start; }
+  }
+</style>
