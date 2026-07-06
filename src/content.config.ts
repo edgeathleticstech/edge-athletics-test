@@ -5,7 +5,7 @@ const announcements = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/announcements' }),
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.coerce.string(),
     urgent: z.boolean().default(false),
     active: z.boolean().default(true),
   }),
@@ -35,7 +35,7 @@ const schedules = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/schedules' }),
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.coerce.string(),
     team: z.string(),
     time: z.string(),
     location: z.string(),
