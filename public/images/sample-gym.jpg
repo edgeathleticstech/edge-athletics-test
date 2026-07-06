@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#1a3a5c"/>
+  <text x="400" y="240" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-family="sans-serif" font-size="24" font-weight="bold">GYM PHOTO</text>
+  <text x="400" y="270" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-family="sans-serif" font-size="14">Replace with actual image</text>
+</svg>

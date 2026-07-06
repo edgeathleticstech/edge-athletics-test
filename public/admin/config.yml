@@ -1,0 +1,85 @@
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: editorial_workflow
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "announcements"
+    label: "Announcements"
+    folder: "src/content/announcements"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false }
+      - { label: "Urgent?", name: "urgent", widget: "boolean", default: false, hint: "Mark as urgent to highlight this announcement" }
+      - { label: "Active", name: "active", widget: "boolean", default: true, hint: "Uncheck to hide this announcement without deleting it" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "programs"
+    label: "Programs"
+    folder: "src/content/programs"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text", hint: "Short description shown in program listings" }
+      - { label: "Season", name: "season", widget: "string", hint: "e.g., Fall 2025, Summer 2026, Spring 2026" }
+      - { label: "Age Range", name: "ageRange", widget: "string", required: false, hint: "e.g., 9-17 or 6-15" }
+      - { label: "Dates", name: "dates", widget: "string", required: false, hint: "e.g., 4 weeks, two sessions per week" }
+      - { label: "Tuition", name: "tuition", widget: "string", required: false, hint: "e.g., $225 or $195 per week" }
+      - { label: "Location", name: "location", widget: "string", required: false }
+      - { label: "Registration URL", name: "registrationUrl", widget: "string", required: false, hint: "Link to registration page (e.g., Knack)" }
+      - label: "Images"
+        name: "images"
+        widget: "list"
+        required: false
+        hint: "Add as many photos as you want — click 'Add' for each new image"
+        field:
+          label: "Image"
+          name: "image"
+          widget: "image"
+      - label: "YouTube Videos"
+        name: "videos"
+        widget: "list"
+        required: false
+        hint: "Add YouTube video URLs — click 'Add' for each new video"
+        field:
+          label: "YouTube URL"
+          name: "url"
+          widget: "string"
+      - { label: "Password Protect?", name: "protected", widget: "boolean", default: false, hint: "Turn on to require a password to view this page" }
+      - { label: "Page Password", name: "pagePassword", widget: "string", required: false, hint: "Password visitors must enter to see this page (only used if Password Protect is on)" }
+      - { label: "Display Order", name: "order", widget: "number", default: 0, hint: "Lower numbers appear first" }
+      - { label: "Active", name: "active", widget: "boolean", default: true, hint: "Uncheck to hide this program without deleting it" }
+      - { label: "Full Description", name: "body", widget: "markdown", hint: "Detailed program information — features, who it's for, FAQ, etc." }
+
+  - name: "schedules"
+    label: "Schedule"
+    folder: "src/content/schedules"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", hint: "e.g., 14u Practice or 15u vs Hudson Valley Hawks" }
+      - { label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false }
+      - { label: "Team", name: "team", widget: "string", hint: "e.g., 14u, 12u East, 15u" }
+      - { label: "Time", name: "time", widget: "string", hint: "e.g., 6:00 PM - 8:00 PM" }
+      - { label: "Location", name: "location", widget: "string" }
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options:
+          - { label: "Practice", value: "practice" }
+          - { label: "Game", value: "game" }
+          - { label: "Tournament", value: "tournament" }
+          - { label: "Event", value: "event" }
+        default: "practice"
+      - { label: "Notes", name: "notes", widget: "string", required: false, hint: "Optional — arrival time, jersey color, etc." }
+      - { label: "Active", name: "active", widget: "boolean", default: true }
