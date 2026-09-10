@@ -1,6 +1,8 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: edgeathleticstech/edge-athletics-test
   branch: main
+  base_url: https://sveltia-cms-auth.icy-hat-1de2.workers.dev
 
 media_folder: "public/images"
 public_folder: "/images"
