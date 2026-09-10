@@ -1,0 +1,18 @@
+{
+  "top": {
+    "active": false,
+    "message": "",
+    "link_label": "",
+    "link_url": "",
+    "show_from": "",
+    "hide_after": ""
+  },
+  "secondary": {
+    "active": false,
+    "message": "",
+    "link_label": "",
+    "link_url": "",
+    "show_from": "",
+    "hide_after": ""
+  }
+}
