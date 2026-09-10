@@ -1,7 +1,7 @@
 {
   "top": {
-    "active": false,
-    "message": "",
+    "active": true,
+    "message": "BANNER ALERT",
     "link_label": "",
     "link_url": "",
     "show_from": "",
