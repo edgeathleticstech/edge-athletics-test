@@ -11,7 +11,7 @@
     "active": true,
     "message": "NEXT MESSAGE HERE",
     "link_label": "COOL",
-    "link_url": "google.com",
+    "link_url": "www.google.com",
     "show_from": "",
     "hide_after": ""
   }
