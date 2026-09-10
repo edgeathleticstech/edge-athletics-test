@@ -8,10 +8,10 @@
     "hide_after": ""
   },
   "secondary": {
-    "active": false,
-    "message": "",
-    "link_label": "",
-    "link_url": "",
+    "active": true,
+    "message": "NEXT MESSAGE HERE",
+    "link_label": "COOL",
+    "link_url": "google.com",
     "show_from": "",
     "hide_after": ""
   }
