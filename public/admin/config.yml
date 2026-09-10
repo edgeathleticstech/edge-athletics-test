@@ -23,7 +23,7 @@ collections:
     label: "Announcements"
     folder: "src/content/announcements"
     create: true
-    delete: true
+    delete: false
     slug: "{{slug}}"
     fields:
       - { label: "Publish", name: "active", widget: "boolean", default: true, hint: "Turn off to save as draft without showing on the website" }
@@ -36,7 +36,7 @@ collections:
     label: "Programs"
     folder: "src/content/programs"
     create: true
-    delete: true
+    delete: false
     slug: "{{slug}}"
     fields:
       - { label: "Publish", name: "active", widget: "boolean", default: true, hint: "Turn off to save as draft without showing on the website" }
@@ -75,7 +75,7 @@ collections:
     label: "Schedule"
     folder: "src/content/schedules"
     create: true
-    delete: true
+    delete: false
     slug: "{{slug}}"
     fields:
       - { label: "Publish", name: "active", widget: "boolean", default: true, hint: "Turn off to save as draft without showing on the website" }
