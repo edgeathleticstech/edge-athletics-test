@@ -1,0 +1,287 @@
+---
+/**
+ * Edge Athletics — Admin Dashboard
+ *
+ * A standalone launcher, deliberately not using BaseLayout: no site nav,
+ * no footer, no alert banners. This is a tool, not a page of the website.
+ *
+ * Holds no data and requires no login — every item is a link. When the SMS
+ * manager and stats panels arrive they will need real auth (Cloudflare
+ * Access), at which point this page moves behind it.
+ *
+ * Installable on iOS: Safari > Share > Add to Home Screen.
+ */
+
+// Quick links out to systems that live elsewhere.
+// Replace the placeholder URLs before handing this to the operator.
+const quickLinks = [
+  { label: 'Registrations', detail: 'Knack', href: 'https://builder.knack.com', ready: false },
+  { label: 'Video channel', detail: 'YouTube', href: 'https://youtube.com', ready: false },
+  { label: 'Email', detail: 'Gmail', href: 'https://mail.google.com', ready: true },
+];
+
+// Coming later — shown greyed so the shape of the finished tool is visible.
+const pending = [
+  { label: 'Send a text message', detail: 'Not built yet' },
+  { label: 'Site visitors', detail: 'Not built yet' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Edge Athletics Admin</title>
+
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0f2847" />
+
+    <!-- iOS home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Edge Admin" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header class="masthead">
+      <p class="masthead__title">Edge Athletics</p>
+      <p class="masthead__sub">Admin</p>
+    </header>
+
+    <main class="dash">
+      <section class="primary" aria-label="Common tasks">
+        <a class="action action--first" href="/admin/#/collections/announcements/new">
+          <span class="action__label">Post an announcement</span>
+          <span class="action__detail">Goes on the homepage</span>
+        </a>
+
+        <a class="action" href="/admin/#/collections/settings/entries/banners">
+          <span class="action__label">Alert banners</span>
+          <span class="action__detail">Turn the site-wide notice on or off</span>
+        </a>
+      </section>
+
+      <section class="group" aria-labelledby="content-heading">
+        <h2 class="group__heading" id="content-heading">Website content</h2>
+        <ul class="links">
+          <li><a href="/admin/#/collections/announcements">Announcements</a></li>
+          <li><a href="/admin/#/collections/programs">Programs</a></li>
+          <li><a href="/admin/#/collections/schedules">Schedule</a></li>
+          <li><a href="/admin/">Open the full editor</a></li>
+        </ul>
+      </section>
+
+      <section class="group" aria-labelledby="elsewhere-heading">
+        <h2 class="group__heading" id="elsewhere-heading">Elsewhere</h2>
+        <ul class="links">
+          {
+            quickLinks.map((link) => (
+              <li>
+                <a href={link.href} target="_blank" rel="noopener">
+                  {link.label} <span class="links__detail">{link.detail}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="group" aria-labelledby="later-heading">
+        <h2 class="group__heading" id="later-heading">Coming later</h2>
+        <ul class="links links--muted">
+          {
+            pending.map((item) => (
+              <li>
+                <span>
+                  {item.label} <span class="links__detail">{item.detail}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <p class="foot"><a href="/">View the website</a></p>
+    </main>
+  </body>
+</html>
+
+<style>
+  :root {
+    --navy: #0f2847;
+    --navy-deep: #0a1c33;
+    --gold: #f5a623;
+    --paper: #f4f5f7;
+    --ink: #1a1a1a;
+    --ink-soft: #5b6470;
+    --rule: #dfe3e8;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Barlow', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .masthead {
+    background: var(--navy);
+    color: #fff;
+    padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-top));
+    padding-top: calc(1.25rem + env(safe-area-inset-top));
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .masthead__title {
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-size: 1.05rem;
+  }
+
+  .masthead__sub {
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .dash {
+    max-width: 34rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.25rem 3rem;
+  }
+
+  /* The two things he does most, sized so they are impossible to miss
+     on a phone held one-handed. Everything else is deliberately quieter. */
+  .primary {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .action {
+    display: block;
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-left: 5px solid var(--navy);
+    border-radius: 6px;
+    padding: 1.15rem 1.25rem;
+    text-decoration: none;
+    color: inherit;
+    min-height: 4.5rem;
+  }
+
+  .action--first {
+    background: var(--navy);
+    border-color: var(--navy-deep);
+    border-left-color: var(--gold);
+    color: #fff;
+  }
+
+  .action__label {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .action__detail {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  .action--first .action__detail {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .action:hover .action__label {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .group {
+    margin-bottom: 2rem;
+  }
+
+  .group__heading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.25rem;
+  }
+
+  .links {
+    list-style: none;
+  }
+
+  .links li {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .links a,
+  .links span {
+    display: block;
+    padding: 0.9rem 0.25rem;
+    text-decoration: none;
+    color: var(--navy);
+    font-weight: 600;
+    min-height: 2.75rem;
+  }
+
+  .links a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .links__detail {
+    color: var(--ink-soft);
+    font-weight: 400;
+    font-size: 0.9rem;
+  }
+
+  .links--muted span {
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+
+  .foot {
+    margin-top: 2.5rem;
+    font-size: 0.95rem;
+  }
+
+  .foot a {
+    color: var(--ink-soft);
+  }
+
+  a:focus-visible,
+  .action:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+</style>
