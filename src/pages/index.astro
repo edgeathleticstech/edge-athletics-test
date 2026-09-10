@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AlertBanner from '../components/AlertBanner.astro';
+import banners from '../data/banners.json';
 import { getCollection, render } from 'astro:content';
 
 const announcements = (await getCollection('announcements'))
@@ -52,6 +54,8 @@ const programs = (await getCollection('programs'))
       </div>
     </div>
   </section>
+
+  <AlertBanner banner={banners.secondary} variant="secondary" />
 
   <section class="section section-alt">
     <div class="container">
