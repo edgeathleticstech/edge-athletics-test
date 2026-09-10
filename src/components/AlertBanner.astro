@@ -1,0 +1,124 @@
+---
+/**
+ * Alert Banner
+ *
+ * Renders a slim message bar when the operator has switched it on and
+ * today falls inside its optional date window.
+ *
+ * Props:
+ *   banner  - one entry from src/data/banners.json ("top" or "secondary")
+ *   variant - "top" (dark, sitewide) or "secondary" (light, homepage only)
+ *
+ * Dates are compared as YYYY-MM-DD strings in America/New_York. The en-CA
+ * locale formats dates as YYYY-MM-DD, so ordinary string comparison gives
+ * correct chronological ordering with no parsing or timezone arithmetic.
+ *
+ * "hide_after" is inclusive: a banner set to hide after the 15th still shows
+ * on the 15th and disappears on the 16th.
+ *
+ * Note: the site is prerendered, so a date boundary takes effect at the next
+ * build, not at midnight. The nightly rebuild handles this.
+ */
+
+const { banner, variant = 'top' } = Astro.props;
+
+const today = new Date().toLocaleDateString('en-CA', {
+  timeZone: 'America/New_York',
+});
+
+const message = banner?.message?.trim();
+const linkLabel = banner?.link_label?.trim();
+const linkUrl = banner?.link_url?.trim();
+
+const visible =
+  Boolean(banner?.active) &&
+  Boolean(message) &&
+  (!banner.show_from || today >= banner.show_from) &&
+  (!banner.hide_after || today <= banner.hide_after);
+---
+
+{
+  visible && (
+    <div class:list={['edge-banner', `edge-banner--${variant}`]} role="region" aria-label="Site notice">
+      <div class="edge-banner__inner">
+        <p class="edge-banner__message">{message}</p>
+        {linkUrl && linkLabel && (
+          <a class="edge-banner__link" href={linkUrl}>
+            {linkLabel}
+          </a>
+        )}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .edge-banner {
+    width: 100%;
+  }
+
+  .edge-banner__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0.625rem 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+  }
+
+  .edge-banner__message {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+
+  .edge-banner__link {
+    font-weight: 600;
+    white-space: nowrap;
+    text-underline-offset: 0.2em;
+  }
+
+  .edge-banner__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Top banner — sitewide, sits directly under the nav */
+  .edge-banner--top {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .edge-banner--top .edge-banner__link {
+    color: var(--color-gold);
+  }
+
+  .edge-banner--top .edge-banner__link:hover {
+    color: var(--color-white);
+  }
+
+  /* Secondary banner — homepage only, sits between page sections.
+     A soft gold wash rather than the site's neutral grey, so it stays
+     legible whether the section above or below it is white or grey. */
+  .edge-banner--secondary {
+    background: var(--color-gold-tint);
+    color: var(--color-text);
+    border-block: 1px solid var(--color-gold);
+  }
+
+  .edge-banner--secondary .edge-banner__link {
+    color: var(--color-primary);
+  }
+
+  .edge-banner--secondary .edge-banner__link:hover {
+    color: var(--color-text);
+  }
+
+  @media (max-width: 600px) {
+    .edge-banner__inner {
+      padding-inline: 1rem;
+    }
+  }
+</style>
