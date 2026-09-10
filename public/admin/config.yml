@@ -19,6 +19,35 @@ media_libraries:
           height: 2000
 
 collections:
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - name: "banners"
+        label: "Alert Banners"
+        file: "src/data/banners.json"
+        format: "json"
+        fields:
+          - label: "Top Alert Banner"
+            name: "top"
+            widget: "object"
+            fields:
+              - { label: "Active", name: "active", widget: "boolean", default: false, hint: "Turn on to show this banner on every page" }
+              - { label: "Message", name: "message", widget: "string", required: false, hint: "One short line" }
+              - { label: "Link label", name: "link_label", widget: "string", required: false, hint: "Optional — the words people click, e.g. View details" }
+              - { label: "Link URL", name: "link_url", widget: "string", required: false }
+              - { label: "Show from", name: "show_from", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false, picker_utc: false, required: false, hint: "Leave blank to start showing right away" }
+              - { label: "Hide after", name: "hide_after", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false, picker_utc: false, required: false, hint: "Leave blank to show until you turn it off" }
+          - label: "Secondary Banner"
+            name: "secondary"
+            widget: "object"
+            fields:
+              - { label: "Active", name: "active", widget: "boolean", default: false, hint: "Turn on to show this banner on the homepage" }
+              - { label: "Message", name: "message", widget: "string", required: false, hint: "One short line — for news worth noticing but not urgent" }
+              - { label: "Link label", name: "link_label", widget: "string", required: false }
+              - { label: "Link URL", name: "link_url", widget: "string", required: false }
+              - { label: "Show from", name: "show_from", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false, picker_utc: false, required: false, hint: "Leave blank to start showing right away" }
+              - { label: "Hide after", name: "hide_after", widget: "datetime", format: "YYYY-MM-DD", date_format: "MMMM D, YYYY", time_format: false, picker_utc: false, required: false, hint: "Leave blank to show until you turn it off" }
+
   - name: "announcements"
     label: "Announcements"
     folder: "src/content/announcements"
