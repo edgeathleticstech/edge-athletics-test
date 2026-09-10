@@ -7,6 +7,17 @@ backend:
 media_folder: "public/images"
 public_folder: "/images"
 
+media_libraries:
+  default:
+    config:
+      max_file_size: 10000000   # 10MB ceiling on what can be uploaded
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2000
+          height: 2000
+
 collections:
   - name: "announcements"
     label: "Announcements"
