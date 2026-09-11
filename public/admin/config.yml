@@ -3,6 +3,12 @@ backend:
   repo: edgeathleticstech/edge-athletics-test
   branch: main
   base_url: https://sveltia-cms-auth.icy-hat-1de2.workers.dev
+  logo:
+  src: /images/edge_logo_navy.svg
+  show_in_header: true
+
+  app_title: Edge Athletics
+  site_url: https://edge-athletics-test.icy-hat-1de2.workers.dev
 
 media_folder: "public/images"
 public_folder: "/images"
